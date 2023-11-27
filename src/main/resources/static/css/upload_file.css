@@ -1,0 +1,181 @@
+.file-upload-popup {
+    display: none;
+    position: fixed;
+    bottom: 60px;
+    right: 20px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ddd;
+}
+
+.drop-zone {
+    border: 2px dashed #ccc;
+    padding: 30px;
+    cursor: pointer;
+}
+
+.uploaded-files {
+    padding: 10px;
+}
+
+.close-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    position: absolute;
+    right: 0px;
+    top: -5px;
+}
+
+#selected-files {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#selected-files li {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+}
+
+#selected-files li:hover {
+    background-color: #f0f0f0;
+}
+
+li span {
+    flex-grow: 1;
+    text-align: left;
+    margin-right: 10px;
+}
+
+.remove-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.remove-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex; /* use flexbox to align content */
+    align-items: center;
+    justify-content: center;
+    width: 20px; /* increase the width of the button for better clickability */
+    height: 20px; /* increase the height of the button for better clickability */
+    padding: 0;
+    position: relative; /* make the pseudo-elements absolute to the button */
+}
+
+.remove-button:before, .remove-button:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #333;
+}
+
+.remove-button {
+    /* previous styles */
+    order: -1; /* make the remove button appear before the span */
+    margin-right: 10px; /* add some space between the remove button and the file name */
+}
+
+li span {
+    flex-grow: 1; /* make the span take up all remaining space */
+}
+
+
+.remove-button:before {
+    transform: rotate(45deg);
+}
+
+.remove-button:after {
+    transform: rotate(-45deg);
+}
+
+input[type='file'] {
+    color: transparent;
+}
+
+/*file styles*/
+.file-link {
+    display: flex;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    text-decoration: none;
+}
+
+.file-link a {
+    display: flex;
+    align-items: center;
+    color: #000;
+    text-decoration: none;
+}
+
+.file-link i {
+    margin-right: 10px;
+    color: #007bff;
+}
+
+.file-link .file-name {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/*display image modal style*/
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.9);
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 600px;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close:hover, .close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}

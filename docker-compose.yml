@@ -1,0 +1,13 @@
+version: "2.2"
+services:
+  # https://hub.docker.com/r/intersystems/iris-community
+  iris:
+    container_name: my-iris
+    init: true
+    image: intersystems/iris-community:latest-cd
+    volumes:
+      - $PWD/config:/durable
+    ports:
+      - 9092:52773
+      - 9091:1972
+    command: --password-file /durable/passwd/password.txt
