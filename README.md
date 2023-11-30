@@ -5,13 +5,13 @@ Initial Release
 ## StarChat
 
 
-This Java-based chat project is designed to provide a real-time messaging experience using an IRIS database. The application integrates with ChatGPT for enhanced chat functionalities and utilizes Liquibase for database migrations.
+This Java-based chat project is designed to provide a real-time messaging experience using an IRIS Cloud SQL database. The application integrates with ChatGPT for enhanced chat functionalities and utilizes Liquibase for database migrations.
 
 ## Features
 
 - Real-time chat functionality.
 - Integration with ChatGPT for intelligent responses.
-- IRIS database for data storage.
+- IRIS Cloud SQL for data storage.
 - Liquibase for managing database schema changes.
 
 ## Prerequisites
@@ -19,8 +19,10 @@ This Java-based chat project is designed to provide a real-time messaging experi
 Before running the project, make sure you have the following installed:
 
 - Java Development Kit (JDK) 11
-- Docker (For running IRIS)
+- Cloud SQL deployment
+- Docker (Optional. If you do not have IRIS Cloud SQL deployment)
 - Dependencies specified in the `pom.xml` file
+- Maven
 - ChatGPT API key
 
 ## Setup
@@ -35,13 +37,32 @@ git clone https://github.com/yourusername/chat-project.git
 ```bash
 cd StarChat/
 ```
-### Step 3: Set Up Environment Variables
+
+### Step 3: Setup the IRIS storage
+You have 2 options to set up IRIS storage:
+
+#### 1. IRIS Cloud SQL
+Register on [IRIS Cloud SQL](https://portal.dap.isccloud.io/) and create the Cloud SQL deployment (it can be a trial period). After the account creation follow the [instructions](https://community.intersystems.com/post/connecting-cloud-sql-dbeaver-using-ssltls) to access the cloud storage.
+
+#### 2. Local IRIS
+To run the local IRIS run:
+```bash
+docker-compose up -d
+```
+
+### Step 4: Set Up Environment Variables
 
 ```bash
 # Database Configuration
-DATABASE_CONNECTION_URI=jdbc:IRIS://127.0.0.1:1972/USER
-DATABASE_PASSWORD=1423
-DATABASE_USER=_SYSTEM
+DB_HOST=k8s-c8bff1fb-a15...elb.us-east-1.amazonaws.com
+DB_NAMESPACE=USER
+DB_PASSWORD=password
+DB_PORT=443
+DB_USER=SQLAdmin
+SECURITY_LEVEL=10 #Only for Cloud SQL
+
+#SSL
+SSL_CONFIG_FILE_PATH=D:\\StarChat\\certs\\SSLConfig.properties #Only for Cloud SQL
 
 #File Upload Location
 RESOURCE_LOCATION=/D:/StarChat/uploads/
@@ -51,12 +72,20 @@ UPLOAD_DIR=D:/StarChat/uploads
 CHATGPT_API_KEY=your_chatgpt_api_key
 CHAT_GPT_URI=https://api.openai.com/v1/chat/completions
 ```
-### Step 4: Run Docker Compose for IRIS
+### Step 5: Apply migration to DB
+
+#### For Cloud SQL:
+
+Create tables manually using .sql files from src/main/resources/liquibase/ .
+
+#### For local IRIS:
+
+Run Liquibase plugin:
 
 ```bash
-docker-compose up -d
+mvn liquibase:update
 ```
-### Step 4: Access the Application
+### Step 6: Access the Application
 Go to the address http://localhost:3000/
 
 ## How to use
