@@ -68,7 +68,7 @@ SSL_CONFIG_FILE_PATH=D:\\StarChat\\certs\\SSLConfig.properties #Only for Cloud S
 RESOURCE_LOCATION=/D:/StarChat/uploads/
 UPLOAD_DIR=D:/StarChat/uploads
 
-# ChatGPT API Key
+#ChatGPT API Key
 CHATGPT_API_KEY=your_chatgpt_api_key
 CHAT_GPT_URI=https://api.openai.com/v1/chat/completions
 ```
