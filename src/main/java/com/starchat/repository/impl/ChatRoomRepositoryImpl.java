@@ -106,7 +106,7 @@ public class ChatRoomRepositoryImpl implements ChatRoomRepository {
                 int rowsAffected = statement.executeUpdate();
 
                 if (rowsAffected == 0) {
-                    System.out.println("No char found with ID: " + id);
+                    System.out.println("No chat found with ID: " + id);
                 } else {
                     System.out.println("Chat with ID " + id + " deleted successfully");
                 }

@@ -14,7 +14,7 @@ public class UserMapper {
         user.setPhone(rs.getString("phone"));
         user.setFirstName(rs.getString("first_name"));
         user.setLastName(rs.getString("last_name"));
-        System.out.println(rs.getString("user_role"));
+        rs.getString("user_role");
         user.setRole(UserRoles.getByValue(rs.getInt("user_role")));
         user.setPassword(rs.getString("password"));
         user.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
