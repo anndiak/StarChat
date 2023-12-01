@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+    <Document name="StarChat.ZPM">
+        <Module>
+            <Name>StarChat</Name>
+            <Description>Realm-time messaging app integrated with AI</Description>
+            <Version>0.0.1</Version>
+            <Packaging>module</Packaging>
+            <SourcesRoot>src</SourcesRoot>
+            <AfterInstallMessage>StarChat installed successfully! See more about on https://github.com/anndiak/StarChat</AfterInstallMessage>
+        </Module>
+    </Document>
+</Export>
