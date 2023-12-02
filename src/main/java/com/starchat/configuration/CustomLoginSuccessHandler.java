@@ -1,7 +1,8 @@
 package com.starchat.configuration;
 
 import com.intersystems.jdbc.IRIS;
-import com.starchat.model.dto.UserPresenceDto;
+import com.starchat.model.UserPresence;
+import com.starchat.repository.UserPresenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Autowired
-    private IRIS irisNative;
+    private UserPresenceRepository userPresenceRepository;
 
     private final SimpMessagingTemplate messagingTemplate;
 
@@ -28,16 +29,16 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         String userEmail = authentication.getName();
         System.out.println("User logged in: " + userEmail);
 
-        UserPresenceDto presenceUpdate = new UserPresenceDto();
-        presenceUpdate.setUserEmail(userEmail);
+        UserPresence presenceUpdate = new UserPresence();
+        presenceUpdate.setEmail(userEmail);
         presenceUpdate.setOnline(true);
         presenceUpdate.setLastLogin(LocalDateTime.now());
 
-        try {
-            irisNative.set(presenceUpdate.getLastLogin().toString(), "user", "LastLogin", userEmail);
-            irisNative.set(true, "user", "isActive", userEmail);
-        } catch (Exception e) {
-            System.out.println(e);
+        if (userPresenceRepository.getUserPresenceByEmail(userEmail) == null) {
+            userPresenceRepository.addUserPresence(presenceUpdate);
+        } else {
+            userPresenceRepository.updateUserPresenceStatusByEmail(true, userEmail);
+            userPresenceRepository.updateUserPresenceLastLoginByEmail(LocalDateTime.now(), userEmail);
         }
 
         messagingTemplate.convertAndSendToUser(

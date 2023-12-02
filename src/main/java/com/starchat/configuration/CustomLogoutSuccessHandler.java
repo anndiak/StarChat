@@ -1,7 +1,8 @@
 package com.starchat.configuration;
 
 import com.intersystems.jdbc.IRIS;
-import com.starchat.model.dto.UserPresenceDto;
+import com.starchat.model.UserPresence;
+import com.starchat.repository.UserPresenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
@@ -10,7 +11,6 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
@@ -21,7 +21,7 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
     }
 
     @Autowired
-    private IRIS irisNative;
+    private UserPresenceRepository userPresenceRepository;
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
@@ -29,11 +29,11 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
             String userEmail = authentication.getName();
             System.out.println("User logged out: " + userEmail);
 
-            UserPresenceDto presenceUpdate = new UserPresenceDto();
-            presenceUpdate.setUserEmail(userEmail);
+            UserPresence presenceUpdate = new UserPresence();
+            presenceUpdate.setEmail(userEmail);
             presenceUpdate.setOnline(false);
 
-            irisNative.set(false, "user", "isActive", userEmail);
+            userPresenceRepository.updateUserPresenceStatusByEmail(false, userEmail);
 
             messagingTemplate.convertAndSendToUser(
                     userEmail,

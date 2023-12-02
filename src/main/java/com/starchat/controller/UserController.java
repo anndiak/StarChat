@@ -3,9 +3,9 @@ package com.starchat.controller;
 import com.intersystems.jdbc.IRIS;
 import com.starchat.model.Message;
 import com.starchat.model.User;
-import com.starchat.model.dto.UserPresenceDto;
-import com.starchat.repository.ChatRoomRepository;
+import com.starchat.model.UserPresence;
 import com.starchat.repository.MessageRepository;
+import com.starchat.repository.UserPresenceRepository;
 import com.starchat.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,12 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,7 +30,7 @@ public class UserController {
     private MessageRepository messageRepository;
 
     @Autowired
-    private IRIS irisNative;
+    private UserPresenceRepository userPresenceRepository;
 
     public org.springframework.security.core.userdetails.User getAuthenticatedUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -74,7 +70,7 @@ public class UserController {
     }
 
     @GetMapping("/user/activeness")
-    public ResponseEntity<UserPresenceDto> getUserLoginStatus1(
+    public ResponseEntity<UserPresence> getUserLoginStatus1(
             @RequestParam Long chatId,
             @RequestParam Long fromId) {
 
@@ -84,13 +80,7 @@ public class UserController {
                     .findFirst().get().getToUserId();
 
         String email = userRepository.getUserById(toUserId).getEmail();
-        Boolean status = irisNative.getBoolean("user", "isActive", email);
-        UserPresenceDto userPresenceDto = new UserPresenceDto();
-        userPresenceDto.setUserEmail(email);
-        userPresenceDto.setOnline(status);
-        String str = irisNative.getString("user", "LastLogin", email);
-        userPresenceDto.setLastLogin(LocalDateTime.parse(str));
 
-        return new ResponseEntity<>(userPresenceDto, HttpStatus.OK);
+        return new ResponseEntity<>(userPresenceRepository.getUserPresenceByEmail(email), HttpStatus.OK);
     }
 }
