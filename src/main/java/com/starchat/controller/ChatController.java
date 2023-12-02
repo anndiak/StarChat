@@ -1,5 +1,6 @@
 package com.starchat.controller;
 
+import com.intersystems.jdbc.IRIS;
 import com.starchat.model.ChatRoom;
 import com.starchat.model.Message;
 import com.starchat.model.dto.MessageDto;
@@ -39,6 +40,9 @@ public class ChatController {
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
+    @Autowired
+    private IRIS irisNative;
+
     @RequestMapping("/")
     public String index(){
         return "index";
@@ -77,6 +81,13 @@ public class ChatController {
         if (toUserId == null) {
             return ResponseEntity.notFound().build();
         }
+
+        Boolean status = irisNative.getBoolean("user", "isActive", userRepository.getUserById(toUserId).getEmail());
+
+        if (status == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         Long fromUserId = userRepository.getUserIdByEmail(fromEmail);
 
         ChatRoom chat = new ChatRoom();
