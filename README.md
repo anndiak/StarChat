@@ -13,6 +13,7 @@ This Java-based chat project is designed to provide a real-time messaging experi
 - Integration with ChatGPT for intelligent responses.
 - IRIS Cloud SQL for data storage.
 - Liquibase for managing database schema changes.
+- Java Native API
 
 ## Prerequisites
 
@@ -32,12 +33,12 @@ Before running the project, make sure you have the following installed:
 ```bash
 git clone https://github.com/yourusername/chat-project.git
 ```
-### Step 2: Go to the project
+### Step 2: Go to the cloned project
 
 ```bash
 cd StarChat/
 ```
-
+You must select the appropriate branch based on your storage choice. Opt for the 'master' branch if you're utilizing local storage and the 'cloud' branch for CloudSQL storage. While the functionality remains consistent across both branches, it's essential to note that Cloud SQL lacks support for Globals. Consequently, the Java Native API won't function in this scenario. On the 'cloud' branch, we address this limitation by using a dedicated table instead of Globals.
 ### Step 3: Setup the IRIS storage
 You have 2 options to set up IRIS storage:
 
