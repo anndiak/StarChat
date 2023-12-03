@@ -49,7 +49,7 @@ You have 2 options to set up IRIS storage:
 #### 1. IRIS Cloud SQL
 Register on [IRIS Cloud SQL](https://portal.dap.isccloud.io/) and create the Cloud SQL deployment (it can be a trial period). After the account creation follow the [instructions](https://community.intersystems.com/post/connecting-cloud-sql-dbeaver-using-ssltls) to access the cloud storage.
 
-#### 2. Local IRIS (with Java Gateway service)
+#### 2. Local IRIS 
 Run Docker:
 ```bash
 docker-compose up -d
@@ -72,6 +72,10 @@ SSL_CONFIG_FILE_PATH=D:\\StarChat\\certs\\SSLConfig.properties #Only for Cloud S
 #File Upload Location
 RESOURCE_LOCATION=/D:/StarChat/uploads/
 UPLOAD_DIR=D:/StarChat/uploads
+
+#ChatGPT
+CHAT_GPT_URI=https://api.openai.com/v1/chat/completions
+ChatGPT_API_KEY=sd-....dfdfdfd
 ```
 ### Step 5: Apply migration to DB
 
@@ -93,23 +97,6 @@ Go to the address http://localhost:3000/
 ## How to use
 
 [![Watch the video](https://www.youtube.com/watch?v=vWz1xE0YWfM/0.jpg)](https://www.youtube.com/watch?v=vWz1xE0YWfM&ab_channel=AnnaDiak)
-
-### Installing with IPM (For using ChatGPT module)
-
-Run Java Gateway (Note: do not forget to specify 'CHAT_GPT_API_KEY' in .yml):
-
-```bash
-docker-compose up -d
-```
-Install the package:
-
-```bash
-zpm "install starchat"
-```
-How to use:
-```
-write ##class(dc.starchat.ChatGPTMain).GetAnswer("java-gateway", 55555, "ChatGPT", "How do you do")
-```
 
 ## Contributing
 
