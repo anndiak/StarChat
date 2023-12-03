@@ -16,6 +16,6 @@ services:
     image: java-gateway
     build: chat-gpt-service
     environment:
-      - CHATGPT_API_KEY=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
+      - CHATGPT_API_KEY=Key
     ports:
       - 55555:55555
