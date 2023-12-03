@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-    <Document name="irisjavagatewaygpt.ZPM">
+    <Document name="starchat.ZPM">
         <Module>
-            <Name>irisjavagatewaygpt</Name>
+            <Name>starchat</Name>
             <Version>1.0.0</Version>
             <Packaging>module</Packaging>
             <SourcesRoot>chat-gpt-cls/src</SourcesRoot>
-            <Resource Name="dc.irisjavagatewaygpt.PKG"/>
+            <Resource Name="dc.starchat.PKG"/>
         </Module>
     </Document>
 </Export>

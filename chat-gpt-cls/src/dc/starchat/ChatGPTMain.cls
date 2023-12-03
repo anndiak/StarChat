@@ -1,4 +1,4 @@
-Class dc.irisjavagatewaygpt.ChatGPTMain
+Class dc.starchat.ChatGPTMain
 {
 
 ClassMethod GetAnswer(server As %String, port As %Integer, serviceName As %String, question As %String) As %String
