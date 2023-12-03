@@ -3,12 +3,10 @@ package com.starchat.controller;
 import com.intersystems.jdbc.IRIS;
 import com.starchat.model.ChatRoom;
 import com.starchat.model.Message;
+import com.starchat.model.UserPresence;
 import com.starchat.model.dto.MessageDto;
 import com.starchat.model.dto.UploadedFileDto;
-import com.starchat.repository.ChatRoomRepository;
-import com.starchat.repository.FileRepository;
-import com.starchat.repository.MessageRepository;
-import com.starchat.repository.UserRepository;
+import com.starchat.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +39,7 @@ public class ChatController {
     private SimpMessagingTemplate messagingTemplate;
 
     @Autowired
-    private IRIS irisNative;
+    private UserPresenceRepository userPresenceRepository;
 
     @RequestMapping("/")
     public String index(){
@@ -82,9 +80,9 @@ public class ChatController {
             return ResponseEntity.notFound().build();
         }
 
-        Boolean status = irisNative.getBoolean("user", "isActive", userRepository.getUserById(toUserId).getEmail());
+        UserPresence userPresence = userPresenceRepository.getUserPresenceByEmail(userRepository.getUserById(toUserId).getEmail());
 
-        if (status == null) {
+        if (userPresence == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
