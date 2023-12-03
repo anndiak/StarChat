@@ -4,10 +4,18 @@ services:
   iris:
     container_name: my-iris
     init: true
-    image: intersystems/iris-community:latest-cd
+    build: .
     volumes:
-      - $PWD/config:/durable
+      - ./:/opt/irisapp
     ports:
       - 9092:52773
       - 9091:1972
-    command: --password-file /durable/passwd/password.txt
+
+  java-gateway:
+    container_name: java-gateway
+    image: java-gateway
+    build: chat-gpt-service
+    environment:
+      - CHATGPT_API_KEY=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
+    ports:
+      - 55555:55555

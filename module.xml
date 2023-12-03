@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-    <Document name="StarChat.ZPM">
+    <Document name="irisjavagatewaygpt.ZPM">
         <Module>
-            <Name>StarChat</Name>
-            <Description>Realm-time messaging app integrated with AI</Description>
+            <Name>irisjavagatewaygpt</Name>
             <Version>1.0.0</Version>
             <Packaging>module</Packaging>
-            <SourcesRoot>src</SourcesRoot>
-            <AfterInstallMessage>StarChat installed successfully! See more about on https://github.com/anndiak/StarChat</AfterInstallMessage>
+            <SourcesRoot>chat-gpt-cls/src</SourcesRoot>
+            <Resource Name="dc.irisjavagatewaygpt.PKG"/>
         </Module>
     </Document>
 </Export>

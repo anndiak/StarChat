@@ -1,5 +1,3 @@
-package com.starchat.client;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
@@ -34,7 +32,7 @@ public class ChatGPT implements com.intersystems.gateway.Service {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(CHAT_GPT_URI))
                     .header("Content-Type", "application/json")
-                    .header("Authorization", "Bearer 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")
+                    .header("Authorization", "Bearer " + System.getenv("CHATGPT_API_KEY"))
                     .POST(HttpRequest.BodyPublishers.ofString("{\n" +
                             "     \"model\": \"gpt-3.5-turbo\",\n" +
                             "     \"messages\": [{\"role\": \"user\", \"content\": \"" + message + "\"}],\n" +
