@@ -1,6 +1,6 @@
 package com.starchat.controller;
 
-import com.starchat.client.ChatGPTClient;
+import com.intersystems.jdbc.IRIS;
 import com.starchat.model.ChatRoom;
 import com.starchat.model.Message;
 import com.starchat.model.dto.MessageDto2;
@@ -38,7 +38,7 @@ public class MessageController {
     private FileRepository fileRepository;
 
     @Autowired
-    private ChatGPTClient chatGPTClient;
+    private IRIS irisNative;
 
     public org.springframework.security.core.userdetails.User getAuthenticatedUser(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -47,8 +47,8 @@ public class MessageController {
 
     @RequestMapping("/messages")
     public ResponseEntity<List<MessageDto2>> getMessages(@RequestParam("room") Long roomId,
-                                                     @RequestParam("offset") int offset,
-                                                     @RequestParam("limit") int limit){
+                                                         @RequestParam("offset") int offset,
+                                                         @RequestParam("limit") int limit){
         List<MessageDto2> messages = messageRepository.getAllMessagesByChatRoomId(roomId)
                 .stream()
                 .map(this::convertToMessageDto2)
@@ -100,7 +100,7 @@ public class MessageController {
 
     @RequestMapping("/chatgpt")
     public ResponseEntity<String> getChatGptResponse(@RequestParam("request") String request) {
-        String response = chatGPTClient.sendMessage(request);
+        String response = irisNative.classMethodString("%Net.Remote.Gateway", "%RemoteService", "localhost", 55555, "ChatGPT", request);
         return ResponseEntity.ok(response);
     }
 }
