@@ -50,7 +50,7 @@ You have 2 options to set up IRIS storage:
 Register on [IRIS Cloud SQL](https://portal.dap.isccloud.io/) and create the Cloud SQL deployment (it can be a trial period). After the account creation follow the [instructions](https://community.intersystems.com/post/connecting-cloud-sql-dbeaver-using-ssltls) to access the cloud storage.
 
 #### 2. Local IRIS (with Java Gateway service)
-Run Docker:
+Run Docker (Note: change IRIS password after starting containers):
 ```bash
 docker-compose up -d
 ```
@@ -72,6 +72,10 @@ SSL_CONFIG_FILE_PATH=D:\\StarChat\\certs\\SSLConfig.properties #Only for Cloud S
 #File Upload Location
 RESOURCE_LOCATION=/D:/StarChat/uploads/
 UPLOAD_DIR=D:/StarChat/uploads
+
+#Gateway settings
+GATEWAY_HOST=java-gateway
+GATEWAY_PORT=55555
 ```
 ### Step 5: Apply migration to DB
 
