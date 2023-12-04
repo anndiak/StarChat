@@ -83,7 +83,7 @@
                             <!-- messages will be inserted here dynamically -->
                         </ul>
                     </div>
-                    <div class="chat-input chat-message clearfix">
+                    <div id="chat_input_block" class="chat-input chat-message clearfix" style="display: none">
                         <div class="input-group mb-0">
                             <button class="fa fa-paperclip" onclick="toggleFileUploadPopup()"></button>
                             <input id="message-text" type="text" class="form-control" placeholder="Enter text here...">
@@ -339,6 +339,8 @@
         selectedChatId = chatId;
 
         setTimeout(scrollToBottom, 100);
+
+        $("#chat_input_block").toggle();
     }
 
     async function fillChatHeader(chatId) {
@@ -384,6 +386,11 @@
         const receiverEmail = document.getElementById('chat-about-user-email');
         var content = $('#message-text').val();
         const createdAt = new Date().toISOString().slice(0, 19);
+
+        if (content.length > 500) {
+            alert('Message cannot exceed 500 characters.');
+            return;
+        }
 
         var message = {
             chatId: chatNumber.innerText,

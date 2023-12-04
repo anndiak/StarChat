@@ -9,6 +9,7 @@ import com.starchat.repository.FileRepository;
 import com.starchat.repository.MessageRepository;
 import com.starchat.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -24,6 +25,12 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api")
 public class MessageController {
+
+    @Value("#{systemEnvironment['GATEWAY_HOST']}")
+    private String gatewayHost;
+
+    @Value("#{systemEnvironment['GATEWAY_PORT']}")
+    private String gatewayPort;
 
     @Autowired
     private MessageRepository messageRepository;
@@ -100,7 +107,13 @@ public class MessageController {
 
     @RequestMapping("/chatgpt")
     public ResponseEntity<String> getChatGptResponse(@RequestParam("request") String request) {
-        String response = irisNative.classMethodString("%Net.Remote.Gateway", "%RemoteService", "localhost", 55555, "ChatGPT", request);
+        String response = irisNative.classMethodString("%Net.Remote.Gateway", "%RemoteService", gatewayHost, gatewayPort, "ChatGPT", request);
+
+        if (response.length() > 460) {
+            response = response.substring(0, 460);
+            System.out.println("Response was truncated to 500 characters.");
+        }
+
         return ResponseEntity.ok(response);
     }
 }

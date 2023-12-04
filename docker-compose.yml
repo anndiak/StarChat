@@ -15,7 +15,14 @@ services:
     container_name: java-gateway
     image: java-gateway
     build: chat-gpt-service
-    environment:
-      - CHATGPT_API_KEY=Key
     ports:
       - 55555:55555
+    env_file: .env
+
+#  starchat:
+#    build:
+#      context: .
+#      dockerfile: starchat.Dockerfile
+#    ports:
+#      - "3000:3000"
+#    env_file: .env
