@@ -13,6 +13,8 @@ This Java-based chat project is designed to provide a real-time messaging experi
 - Integration with ChatGPT for intelligent responses.
 - IRIS Cloud SQL for data storage.
 - Liquibase for managing database schema changes.
+- Java Native API
+- Java Gateway
 
 ## Prerequisites
 
@@ -32,11 +34,14 @@ Before running the project, make sure you have the following installed:
 ```bash
 git clone https://github.com/yourusername/chat-project.git
 ```
-### Step 2: Go to the project
+### Step 2: Go to the cloned project
 
 ```bash
 cd StarChat/
 ```
+You must select the appropriate branch based on your storage choice. Opt for the 'master' branch if you're utilizing local storage and the 'cloud' branch for CloudSQL storage. While the functionality remains consistent across both branches, it's essential to note that Cloud SQL lacks support for Globals. Consequently, the Java Native API won't function in this scenario. We address this limitation on the 'cloud' branch by using a dedicated table instead of Globals.
+
+Also, there is a difference in how the application is connected to the ChatGPT. On the 'cloud' branch, we are using ChatGPT`s client, on 'master' - Java Gateway Service together with Java Native API.
 
 ### Step 3: Setup the IRIS storage
 You have 2 options to set up IRIS storage:
@@ -44,8 +49,8 @@ You have 2 options to set up IRIS storage:
 #### 1. IRIS Cloud SQL
 Register on [IRIS Cloud SQL](https://portal.dap.isccloud.io/) and create the Cloud SQL deployment (it can be a trial period). After the account creation follow the [instructions](https://community.intersystems.com/post/connecting-cloud-sql-dbeaver-using-ssltls) to access the cloud storage.
 
-#### 2. Local IRIS
-To run the local IRIS run:
+#### 2. Local IRIS (with Java Gateway service)
+Run Docker (Note: change IRIS password after starting containers):
 ```bash
 docker-compose up -d
 ```
@@ -68,9 +73,9 @@ SSL_CONFIG_FILE_PATH=D:\\StarChat\\certs\\SSLConfig.properties #Only for Cloud S
 RESOURCE_LOCATION=/D:/StarChat/uploads/
 UPLOAD_DIR=D:/StarChat/uploads
 
-#ChatGPT API Key
-CHATGPT_API_KEY=your_chatgpt_api_key
-CHAT_GPT_URI=https://api.openai.com/v1/chat/completions
+#Gateway settings
+GATEWAY_HOST=java-gateway
+GATEWAY_PORT=55555
 ```
 ### Step 5: Apply migration to DB
 
@@ -85,12 +90,30 @@ Run Liquibase plugin:
 ```bash
 mvn liquibase:update
 ```
+
 ### Step 6: Access the Application
 Go to the address http://localhost:3000/
 
 ## How to use
 
 [![Watch the video](https://www.youtube.com/watch?v=vWz1xE0YWfM/0.jpg)](https://www.youtube.com/watch?v=vWz1xE0YWfM&ab_channel=AnnaDiak)
+
+### Installing with IPM (For using ChatGPT module)
+
+Run Java Gateway (Note: do not forget to specify 'CHAT_GPT_API_KEY' in .yml):
+
+```bash
+docker-compose up -d
+```
+Install the package:
+
+```bash
+zpm "install starchat"
+```
+How to use:
+```
+write ##class(dc.starchat.ChatGPTMain).GetAnswer("java-gateway", 55555, "ChatGPT", "How do you do")
+```
 
 ## Contributing
 

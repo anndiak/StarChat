@@ -1,5 +1,7 @@
 package com.starchat;
 
+import com.intersystems.jdbc.IRIS;
+import com.intersystems.jdbc.IRISConnection;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

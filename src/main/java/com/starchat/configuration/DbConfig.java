@@ -1,16 +1,16 @@
 package com.starchat.configuration;
 
+import com.intersystems.jdbc.IRIS;
 import com.intersystems.jdbc.IRISConnection;
 import com.intersystems.jdbc.IRISDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 @Configuration
-public class Config {
+public class DbConfig {
 
     @Value("#{systemEnvironment['SSL_CONFIG_FILE_PATH']}")
     private String sslConfigFilePath;
@@ -33,9 +33,14 @@ public class Config {
     @Value("#{systemEnvironment['SECURITY_LEVEL']}")
     private String securityLevel;
 
-    @Bean
+    @Bean(destroyMethod = "close")
     public IRISConnection getIrisConnection() throws SQLException {
         return (IRISConnection) irisDataSource().getConnection();
+    }
+
+    @Bean(destroyMethod = "close")
+    public IRIS getIrisNativeInterface(IRISConnection dbConnection) throws SQLException {
+        return IRIS.createIRIS(dbConnection);
     }
 
     @Bean
